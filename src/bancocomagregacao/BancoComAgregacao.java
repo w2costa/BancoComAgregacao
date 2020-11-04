@@ -6,6 +6,7 @@
 package bancocomagregacao;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -23,22 +24,28 @@ public class BancoComAgregacao {
         ClienteJpaController clienteDao = new ClienteJpaController(emf);
         TelefoneJpaController telefoneDao = new TelefoneJpaController(emf);
 
-        // lado n da relacao
-        Telefone fone = new Telefone();
-        fone.setNumero("22222226");
-        telefoneDao.create(fone);
+//        // lado n da relacao
+//        Telefone fone = new Telefone();
+//        fone.setNumero("22222226");
+//        telefoneDao.create(fone);
+//
+//        // Cria lado 1 da realcao
+//        Cliente c = new Cliente();
+//        c.setNome("Zé Mané");
+//
+//        // conecta as duas classes
+//        c.setTelefoneCollection(new ArrayList());
+//        c.getTelefoneCollection().add(fone);
+//
+//        // persiste o cliente
+//        clienteDao.create(c);
 
-        // Cria lado 1 da realcao
-        Cliente c = new Cliente();
-        c.setNome("Zé Mané");
-
-        // conecta as duas classes
-        c.setTelefoneCollection(new ArrayList());
-        c.getTelefoneCollection().add(fone);
-
-        // persiste o cliente
-        clienteDao.create(c);
-
+        List<Cliente> lista = clienteDao.findClienteEntitiesByNameLike("a");
+//        List<Cliente> lista = clienteDao.findClienteEntitiesByName("Billy");
+        for (Cliente c : lista ) {
+            System.out.println("Id: " + c.getId() + "Nome: " + c.getNome());
+        }
+        
     }
 
 }

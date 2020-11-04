@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NamedQuery;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -158,6 +160,27 @@ public class ClienteJpaController implements Serializable {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    public List<Cliente> findClienteEntitiesByName(String criterio) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Cliente> q = em.createQuery("SELECT c FROM Cliente c WHERE c.nome = :name", Cliente.class );
+            q.setParameter("name", criterio);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Cliente> findClienteEntitiesByNameLike(String criterio) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Cliente> q = em.createQuery("SELECT c FROM Cliente c WHERE c.nome like :name", Cliente.class );
+            q.setParameter("name", "%" + criterio + "%");
             return q.getResultList();
         } finally {
             em.close();
